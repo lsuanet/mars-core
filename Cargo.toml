@@ -1,5 +1,5 @@
 [workspace]
-members = ["contracts/*", "packages/*"]
+members = ["contracts/ibc-router/*", "packages/ibc-0.16/*"]
 
 [profile.release.package.mars]
 opt-level = 3
