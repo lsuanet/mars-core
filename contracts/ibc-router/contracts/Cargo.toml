@@ -1,0 +1,38 @@
+[package]
+name = "contracts"
+version = "0.1.0"
+authors = ["Alien hunter no. 42 <84127070+alienHunterOnMars@users.noreply.github.com>"]
+edition = "2018"
+
+exclude = [
+  # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
+  "contract.wasm",
+  "hash.txt",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+# for more explicit tests, cargo test --features=backtraces
+backtraces = ["cosmwasm-std/backtraces"]
+# use library feature to disable all init/handle/query exports
+library = []
+
+
+[dependencies]
+cw0 = { path = "../../packages/ibc-0.16/cw0", version = "0.7.0" }
+cw2 = { path = "../../packages/ibc-0.16/cw2", version = "0.7.0" }
+cw20 = { path = "../../packages/ibc-0.16/cw20", version = "0.7.0" }
+
+cosmwasm-std = { version = "0.16.0-rc5", features = ["iterator", "stargate"] }
+cw-storage-plus = { path = "../../packages/storage-plus", version = "0.7.0" }
+schemars = "0.8.1"
+serde = { version = "1.0.103", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.23" }
+
+
+[dev-dependencies]
+cosmwasm-schema = { version = "0.16.0-rc5" }
