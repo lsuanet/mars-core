@@ -2,6 +2,7 @@ on: push
 
 name: Basic
 
+
 jobs:
   build-mars-artifacts:
     runs-on: ubuntu-latest
@@ -49,6 +50,9 @@ jobs:
       - name: run test
         run: |
           cd $GITHUB_WORKSPACE/scripts
-          node --loader ts-node/esm tests/${{ matrix.test }}.ts
+          npm install -g ts-node
+          npm install
+          npm install -g typescript
+          node --loader ts-node/esm tests/${{ matrix.test }}.ts --extension ts
       - name: stop LocalTerra
         run: docker-compose -f $HOME/LocalTerra/docker-compose.yml down
