@@ -11,7 +11,7 @@ import {
 import {
   borrowNative,
   depositCw20,
-  depositNative,
+  depositNative, queryBalanceNative,
   setAssetOraclePriceSource
 } from "./test_helpers.js"
 
@@ -35,12 +35,16 @@ const MARS_COLLATERAL = 100_000_000_000000;
   const provider = terra.wallets.test2
   const borrower = terra.wallets.test3
 
+  const uusdBalance = await queryBalanceNative(terra, deployer.key.accAddress, "uusd")
+  console.log("User balance in uusd:", uusdBalance)
+
   console.log("upload contracts")
 
   const addressProvider = await deployContract(terra, deployer, "../artifacts/mars_address_provider.wasm",
     { owner: deployer.key.accAddress }
   )
 
+  console.log("upload mars_incentives")
   const incentives = await deployContract(terra, deployer, "../artifacts/mars_incentives.wasm",
     {
       owner: deployer.key.accAddress,
@@ -48,12 +52,14 @@ const MARS_COLLATERAL = 100_000_000_000000;
     }
   )
 
+  console.log("upload mars_oracle")
   const oracle = await deployContract(terra, deployer, "../artifacts/mars_oracle.wasm",
     { owner: deployer.key.accAddress }
   )
 
   const maTokenCodeId = await uploadContract(terra, deployer, "../artifacts/mars_ma_token.wasm")
 
+  console.log("upload mars_red_bank")
   const redBank = await deployContract(terra, deployer, "../artifacts/mars_red_bank.wasm",
     {
       config: {
@@ -67,6 +73,7 @@ const MARS_COLLATERAL = 100_000_000_000000;
     }
   )
 
+  console.log("upload cw20_base")
   const mars = await deployContract(terra, deployer, join(CW_PLUS_ARTIFACTS_PATH, "cw20_base.wasm"),
     {
       name: "Mars",

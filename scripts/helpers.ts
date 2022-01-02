@@ -8,8 +8,7 @@ import {
   MsgExecuteContract,
   MsgInstantiateContract,
   MsgMigrateContract,
-  MsgStoreCode,
-  Tx,
+  MsgStoreCode, Tx,
   TxError,
   Wallet
 } from '@terra-money/terra.js';
