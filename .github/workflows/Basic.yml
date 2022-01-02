@@ -22,7 +22,7 @@ jobs:
     needs: build-mars-artifacts
     strategy:
       matrix:
-        test: [borrow_exact_liquidity]
+        test: [borrow_exact_liquidity, dynamic_interest_rate_thresholds]
     env:
       CW_PLUS_ARTIFACTS_PATH: /home/runner/work/cw-plus-artifacts
     steps:
@@ -41,6 +41,8 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/scripts
           npm install
+          npm install -g typescript
+          npm install -g ts-node
       - name: LocalTerra
         run: |
           cd
@@ -51,9 +53,6 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/scripts
           ls -alh ../artifacts
-          npm install
-          npm install -g typescript
-          npm install -g ts-node
           node --loader ts-node/esm tests/${{ matrix.test }}.ts --extension ts
       - name: stop LocalTerra
         run: docker-compose -f $HOME/LocalTerra/docker-compose.yml down
