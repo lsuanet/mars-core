@@ -30,8 +30,8 @@ jobs:
       - name: download cw-plus artifacts
         run: |
           mkdir $CW_PLUS_ARTIFACTS_PATH
-          curl -o $CW_PLUS_ARTIFACTS_PATH/cw1_whitelist.wasm https://github.com/CosmWasm/cw-plus/releases/download/v0.8.0/cw1_whitelist.wasm
-          curl -o $CW_PLUS_ARTIFACTS_PATH/cw20_base.wasm https://github.com/CosmWasm/cw-plus/releases/download/v0.8.0/cw20_base.wasm
+          wget https://github.com/CosmWasm/cw-plus/releases/download/v0.9.1/cw1_whitelist.wasm -O $CW_PLUS_ARTIFACTS_PATH/cw1_whitelist.wasm
+          wget https://github.com/CosmWasm/cw-plus/releases/download/v0.9.1/cw20_base.wasm -O $CW_PLUS_ARTIFACTS_PATH/cw20_base.wasm
       - name: download mars artifacts
         uses: actions/download-artifact@v2
         with:
