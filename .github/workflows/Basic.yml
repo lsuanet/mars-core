@@ -17,6 +17,20 @@ jobs:
           path: |
             artifacts
 
+  build-astroport-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Astroport repo
+        uses: actions/checkout@v2
+        with:
+          repository: astroport-fi/astroport-core
+          path: astroport-core
+      - name: build artifacts
+        run: |
+          ls -alh
+          cd astroport-core
+          ls -alh
+          ./scripts/build_artifacts.sh
   test:
     runs-on: ubuntu-latest
     needs: build-mars-artifacts
@@ -24,22 +38,7 @@ jobs:
       matrix:
         tests: [
             { name: borrow_exact_liquidity, block-time: 250 },
-            { name: dynamic_interest_rate_thresholds, block-time: 250 },
-            { name: governance, block-time: 250 },
-            { name: incentives, block-time: 250 },
-            { name: liquidations, block-time: 250 },
-            { name: ma_token_finalize_transfer, block-time: 250 },
-            { name: ma_token_underlying_liquidity_amount, block-time: 250 },
-            { name: migrating_through_council, block-time: 250 },
-            { name: oracle_native, block-time: 1500 },
-            { name: oracle_red_bank, block-time: 1500 },
-            { name: oracle_spot_and_twap, block-time: 250 },
-            { name: redbank_overflow_checks, block-time: 250 },
-            { name: repay_ust, block-time: 250 },
-            { name: rewards_distribution, block-time: 250 },
-            { name: staking, block-time: 250 },
-            { name: utilization_rate_updates, block-time: 250 },
-            { name: vesting, block-time: 250 }
+            { name: dynamic_interest_rate_thresholds, block-time: 250 }
         ]
     env:
       CW_PLUS_ARTIFACTS_PATH: /home/runner/work/cw-plus-artifacts
