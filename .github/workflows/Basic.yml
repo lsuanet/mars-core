@@ -9,7 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: build artifacts
-        run: $GITHUB_WORKSPACE/scripts/build_artifacts.sh
+        run: |
+          pwd
+          $GITHUB_WORKSPACE/scripts/build_artifacts.sh
       - name: upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -27,10 +29,17 @@ jobs:
           path: astroport-core
       - name: build artifacts
         run: |
+          pwd
           ls -alh
           cd astroport-core
           ls -alh
-          ./scripts/build_artifacts.sh
+          ./build_release.sh
+      - name: upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: astroport-artifacts
+          path: |
+            astroport-core/artifacts
   test:
     runs-on: ubuntu-latest
     needs: build-mars-artifacts
