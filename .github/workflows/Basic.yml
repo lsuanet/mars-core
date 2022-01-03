@@ -22,7 +22,25 @@ jobs:
     needs: build-mars-artifacts
     strategy:
       matrix:
-        test: [borrow_exact_liquidity, dynamic_interest_rate_thresholds]
+        tests: [
+            { name: borrow_exact_liquidity, block-time: 250 },
+            { name: dynamic_interest_rate_thresholds, block-time: 250 },
+            { name: governance, block-time: 250 },
+            { name: incentives, block-time: 250 },
+            { name: liquidations, block-time: 250 },
+            { name: ma_token_finalize_transfer, block-time: 250 },
+            { name: ma_token_underlying_liquidity_amount, block-time: 250 },
+            { name: migrating_through_council, block-time: 250 },
+            { name: oracle_native, block-time: 1500 },
+            { name: oracle_red_bank, block-time: 1500 },
+            { name: oracle_spot_and_twap, block-time: 250 },
+            { name: redbank_overflow_checks, block-time: 250 },
+            { name: repay_ust, block-time: 250 },
+            { name: rewards_distribution, block-time: 250 },
+            { name: staking, block-time: 250 },
+            { name: utilization_rate_updates, block-time: 250 },
+            { name: vesting, block-time: 250 }
+        ]
     env:
       CW_PLUS_ARTIFACTS_PATH: /home/runner/work/cw-plus-artifacts
     steps:
@@ -47,12 +65,12 @@ jobs:
         run: |
           cd
           git clone --depth 1 https://github.com/terra-money/LocalTerra.git
-          sed -E -i '/timeout_(propose|prevote|precommit|commit)/s/[0-9]+m?s/200ms/' LocalTerra/config/config.toml
+          sed -E -i '/timeout_(propose|prevote|precommit|commit)/s/[0-9]+m?s/${{ matrix.tests.block-time }}ms/' LocalTerra/config/config.toml
           docker-compose -f $HOME/LocalTerra/docker-compose.yml up -d
       - name: run test
         run: |
           cd $GITHUB_WORKSPACE/scripts
           ls -alh ../artifacts
-          node --loader ts-node/esm tests/${{ matrix.test }}.ts --extension ts
+          node --loader ts-node/esm tests/${{ matrix.tests.name }}.ts
       - name: stop LocalTerra
         run: docker-compose -f $HOME/LocalTerra/docker-compose.yml down
