@@ -153,7 +153,6 @@ function assertBalance(
       symbol: "MARS",
       decimals: 6,
       initial_balances: [{ address: incentives, amount: String(INCENTIVES_UMARS_BALANCE) }],
-      mint: { minter: incentives },
     }
   )
 
